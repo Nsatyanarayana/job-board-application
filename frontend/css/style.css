@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+h1, h2, h3 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.card {
+    margin: 20px 0;
+}

@@ -1,0 +1,26 @@
+body {
+    background-image: url('https://source.unsplash.com/1600x900/?business,technology');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Arial', sans-serif;
+    
+}
+.navbar {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+.table-dark {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+}
