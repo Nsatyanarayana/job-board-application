@@ -69,13 +69,13 @@ async def respond_to_issue(issue_id: str, response_text: str):
     if not issue:
         return JSONResponse(content={"message": "Issue not found"}, status_code=404)
 
-    # Generate a response using Gemini
+    
     prompt = generate_issue_response_prompt(issue["description"])
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(prompt)
     generated_response = response.text
 
-    # Save the response to the database
+
     db.issues.update_one(
         {"issue_id": issue_id},
         {"$set": {"admin_response": generated_response, "status": "resolved"}}

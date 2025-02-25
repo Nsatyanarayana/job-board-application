@@ -15,7 +15,6 @@ import re
 from uuid import uuid4
 from datetime import datetime
 
-# Configure the directory where resumes will be saved
 RESUME_DIR = "resumes"
 os.makedirs(RESUME_DIR, exist_ok=True)
 
@@ -25,13 +24,11 @@ GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 if not GEMINI_API_KEY:
     raise ValueError("Please set the GEMINI_API_KEY environment variable.")
 
-# Initialize the Gemini model
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
 router = APIRouter()
 
-# Helper function to extract text from PDF
 def extract_text_from_pdf(file_content: bytes) -> str:
     """Extract text from a PDF file."""
     pdf_reader = PyPDF2.PdfReader(BytesIO(file_content))
@@ -40,7 +37,6 @@ def extract_text_from_pdf(file_content: bytes) -> str:
         text += page.extract_text()
     return text
 
-# Helper function to extract text from DOCX
 def extract_text_from_docx(file_content: bytes) -> str:
     """Extract text from a DOCX file."""
     doc = docx.Document(BytesIO(file_content))
@@ -49,7 +45,7 @@ def extract_text_from_docx(file_content: bytes) -> str:
         text += paragraph.text + "\n"
     return text
 
-# Helper function to extract text from a file based on its MIME type
+
 def extract_text_from_file(file: UploadFile) -> str:
     """Extract text from a file based on its MIME type."""
     file_content = file.file.read()
@@ -62,7 +58,6 @@ def extract_text_from_file(file: UploadFile) -> str:
     else:
         raise ValueError("Unsupported file format. Please upload a PDF, DOCX, or plain text file.")
 
-# Route to get user profile
 @router.get("/get_profile")
 async def get_profile(user_id: str):
     user = db.users.find_one({"user_id": user_id}, {"resume_content": 0})
@@ -72,7 +67,6 @@ async def get_profile(user_id: str):
     else:
         return JSONResponse(content={"status": "error", "message": "User not found"}, status_code=404)
 
-# Route to update user profile
 @router.post("/update-profile")
 async def update_profile(
     user_id: str = Form(...),
@@ -182,8 +176,6 @@ async def view_resumes(user_id: str):
     return FileResponse(file_path)
 
 
-
-# Route to apply for a job
 @router.post("/apply")
 async def apply_for_job(
     job_id: str = Form(...),
@@ -223,7 +215,6 @@ async def apply_for_job(
 
     return JSONResponse(content={"status": "success", "message": "Successfully applied for the job!"})
 
-# Route to remove an application
 @router.delete("/remove_application")
 async def remove_application(job_id: str, user_id: str):
     application = db.applications.find_one({"job_id": job_id, "user_id": user_id})
@@ -235,7 +226,6 @@ async def remove_application(job_id: str, user_id: str):
 
     return {"status": "success", "message": f"Application for job {job_id} removed successfully"}
 
-# Route to get all applications for a user
 @router.get("/applications")
 async def get_applications(user_id: str):
     applications = list(db.applications.find({"user_id": user_id}))
@@ -246,7 +236,7 @@ async def get_applications(user_id: str):
         if job:
             application_list.append({
                 **job,
-                "status": application.get("status", "applied"),  # Include the application status
+                "status": application.get("status", "applied"), 
             })
 
     if not application_list:
@@ -254,7 +244,7 @@ async def get_applications(user_id: str):
 
     return {"status": "success", "applied_list": application_list}
 
-# Route to get recommended jobs
+
 @router.get("/jobs", response_model=Job)
 async def get_jobs(userID: str):
     skills_string = db.users.find_one({"user_id": userID}, {"_id": 0, "skills": 1})

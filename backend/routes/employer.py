@@ -11,12 +11,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Fetch Gemini API key from environment variable
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 if not GEMINI_API_KEY:
     raise ValueError("Please set the GEMINI_API_KEY environment variable.")
 
-# Initialize the Gemini model
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
@@ -53,30 +51,34 @@ async def post_job(job: Job, user_id: str):
     if not user_id:
         raise HTTPException(status_code=400, detail="User ID is required")
 
-    # Generate job description using Gemini API
     try:
         prompt = (
             f"Title: {job.title}\n\n"
+            f"Location: {job.location}\n\n"
+            f"Skills: {', '.join(job.skills)}\n\n"
             "Paragraph:\n"
             "Create a professional job description for the above position. "
             "The description should be approximately 150 words long and include the following details:\n\n"
             "- Key responsibilities of the role\n"
             "- Required qualifications and skills\n"
+            "- Location and any location-specific requirements\n"
             "- Any additional relevant details\n\n"
             "Ensure that the text is structured in paragraph format, free from markdown symbols, and written in a formal yet engaging tone."
+             "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
+      
         )
         response = model.generate_content(prompt)
-        generated_description = response.text
+        generated_description = response.text.replace("**", "•") 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate job description: {str(e)}")
 
-    # Prepare job data
+
     job_data = job.dict()
     unique_id = str(uuid.uuid1())
 
     data = {
         "title": job_data["title"],
-        "description": generated_description,  # Use generated description
+        "description": generated_description,  
         "skills": job_data["skills"],
         "salary": job_data["salary"],
         "location": job_data["location"],
@@ -84,33 +86,42 @@ async def post_job(job: Job, user_id: str):
         "user_id": user_id
     }
 
-    # Insert job into the database
+
     db.jobs.insert_one(data)
     return {"message": "Job posted successfully with generated description"}
 
 @router.get("/generate_description")
-async def generate_description(title: str, user_id: str):
+async def generate_description(title: str, skills: str, location: str, user_id: str):
     if not title:
         raise HTTPException(status_code=400, detail="Job title is required")
+    if not skills:
+        raise HTTPException(status_code=400, detail="Skills are required")
+    if not location:
+        raise HTTPException(status_code=400, detail="Location is required")
 
-    # Generate job description using Gemini API
     try:
         prompt = (
             f"Title: {title}\n\n"
+            f"Location: {location}\n\n"
+            f"Skills: {', '.join(skills)}\n\n"
             "Paragraph:\n"
             "Create a professional job description for the above position. "
             "The description should be approximately 150 words long and include the following details:\n\n"
             "- Key responsibilities of the role\n"
             "- Required qualifications and skills\n"
+            "- Location and any location-specific requirements\n"
             "- Any additional relevant details\n\n"
             "Ensure that the text is structured in paragraph format, free from markdown symbols, and written in a formal yet engaging tone."
+             "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
+      
         )
         response = model.generate_content(prompt)
-        generated_description = response.text
+        generated_description = response.text.replace("**", "•") 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate job description: {str(e)}")
 
     return {"description": generated_description}
+
 
 @router.get("/jobs/{user_id}")
 async def get_jobs(user_id: str):
