@@ -21,7 +21,12 @@ os.makedirs(RESUME_DIR, exist_ok=True)
 
 
 
-genai.configure(api_key="AIzaSyAjAXr7_Y02Llj9fyGUXgPlinX3I0TqFig")
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+if not GEMINI_API_KEY:
+    raise ValueError("Please set the GEMINI_API_KEY environment variable.")
+
+# Initialize the Gemini model
+genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
 router = APIRouter()
