@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <!-- Include Navigation Bar -->
     <div id="navbar"></div>
-
-    <!-- Report an Issue Section -->
     <div class="container mt-5">
         <h2 class="text-center mb-4"><i class="fas fa-exclamation-triangle"></i> Report an Issue</h2>
         <form id="reportIssueForm">
@@ -32,16 +29,12 @@
             <button type="button" class="btn btn-danger" onclick="reportIssue()">Report Issue</button>
         </form>
     </div>
-
-    <!-- Reported Issues Section -->
     <div class="container mt-5">
         <h2 class="text-center mb-4"><i class="fas fa-list"></i> My Reported Issues</h2>
         <div id="reportedIssuesList" class="row g-4"></div>
     </div>
 
-    <!-- Include Navigation Bar Script -->
     <script>
-        // Load the navigation bar
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
@@ -49,13 +42,10 @@
             });
     </script>
 
-    <!-- Bootstrap and Custom Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/report.js"></script>
     <script>
         const userId = sessionStorage.getItem("user_id");
-
-        // Function to report an issue
         async function reportIssue() {
             const issueType = document.getElementById('issueType').value;
             const issueDescription = document.getElementById('issueDescription').value;
@@ -75,13 +65,11 @@
             if (result.status === "success") {
                 alert(result.message);
                 document.getElementById('reportIssueForm').reset();
-                fetchReportedIssues(); // Refresh the list of reported issues
+                fetchReportedIssues(); 
             } else {
                 alert(result.message || "Failed to report issue. Please try again.");
             }
         }
-
-        // Function to fetch and display reported issues
         async function fetchReportedIssues() {
             try {
                 const response = await fetch(`http://127.0.0.1:8600/job_seeker/reported_issues?user_id=${userId}`);
@@ -89,17 +77,16 @@
                     throw new Error("Failed to fetch reported issues");
                 }
                 const data = await response.json();
-                displayReportedIssues(data.issues); // Display the fetched issues
+                displayReportedIssues(data.issues); 
             } catch (error) {
                 console.error("Error fetching issues:", error);
                 document.getElementById('reportedIssuesList').innerHTML = '<p class="text-center">Failed to load reported issues. Please try again later.</p>';
             }
         }
 
-        // Function to display reported issues in the UI
         function displayReportedIssues(issues) {
             const reportedIssuesList = document.getElementById('reportedIssuesList');
-            reportedIssuesList.innerHTML = ''; // Clear the existing content
+            reportedIssuesList.innerHTML = '';
 
             if (issues.length === 0) {
                 reportedIssuesList.innerHTML = '<p class="text-center">No reported issues found.</p>';
@@ -137,8 +124,6 @@
                 reportedIssuesList.insertAdjacentHTML('beforeend', issueCard);
             });
         }
-
-        // Function to remove a specific issue
         async function removeIssue(issueId) {
             if (confirm("Are you sure you want to remove this issue?")) {
                 try {
@@ -149,7 +134,7 @@
                     const result = await response.json();
                     if (result.status === "success") {
                         alert(result.message);
-                        fetchReportedIssues(); // Refresh the list of reported issues
+                        fetchReportedIssues(); 
                     } else {
                         alert(result.message || "Failed to remove issue. Please try again.");
                     }
@@ -159,14 +144,10 @@
                 }
             }
         }
-
-        // Fetch reported issues when the page loads
         document.addEventListener('DOMContentLoaded', () => {
             fetchReportedIssues();
         });
-
-        // Periodically fetch reported issues to update solutions dynamically
-        setInterval(fetchReportedIssues, 60000); // Fetch every 60 seconds
+        setInterval(fetchReportedIssues, 60000); 
     </script>
 </body>
 </html>

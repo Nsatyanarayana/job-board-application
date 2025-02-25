@@ -49,7 +49,6 @@
         <p class="lead">Your professional profile</p>
       </div>
       <div class="card-body">
-        <!-- Resume Upload Section -->
         <div class="mb-5">
           <h3><i class="fas fa-file-upload"></i> Upload Resume</h3>
           <form id="resumeForm" enctype="multipart/form-data">
@@ -66,75 +65,51 @@
             <p id="uploadedResumeName" style="display: none;"></p>
           </div>
         </div>
-        <!-- <iframe id="resumeFrame" width="100%" height="500px" style="border: none;"></iframe> -->
-
-        <!-- Profile Details Section -->
         <h3><i class="fas fa-id-card"></i> Profile Details</h3>
         <form id="profileForm">
-          <!-- Name -->
           <div class="mb-3">
             <label for="name" class="form-label"><i class="fas fa-user"></i> Name</label>
             <input type="text" class="form-control" id="name" required readonly>
           </div>
-
-          <!-- Phone -->
           <div class="mb-3">
             <label for="phone" class="form-label"><i class="fas fa-phone"></i> Phone</label>
             <input type="tel" class="form-control" id="phone" required readonly>
           </div>
-
-          <!-- Location -->
           <div class="mb-3">
             <label for="location" class="form-label"><i class="fas fa-map-marker-alt"></i> Location</label>
             <input type="text" class="form-control" id="location" required readonly>
           </div>
-
-          <!-- Skills -->
           <div class="mb-3">
             <label for="skills" class="form-label"><i class="fas fa-tools"></i> Skills</label>
             <input type="text" class="form-control" id="skills" required readonly>
           </div>
-
-          <!-- Experience -->
           <div class="mb-3">
             <label for="experience" class="form-label"><i class="fas fa-briefcase"></i> Experience</label>
             <textarea class="form-control" id="experience" required readonly></textarea>
           </div>
-
-          <!-- Job Preferences -->
           <div class="mb-3">
             <label for="job-preferences" class="form-label"><i class="fas fa-clipboard-list"></i> Job Preferences</label>
             <input type="text" class="form-control" id="job-preferences" required readonly>
           </div>
-
-          <!-- Education -->
           <div class="mb-3">
             <label for="education" class="form-label"><i class="fas fa-graduation-cap"></i> Education</label>
             <input type="text" class="form-control" id="education" required readonly>
           </div>
-
-          <!-- Social Links -->
           <div class="mb-3">
             <label for="social_links" class="form-label"><i class="fas fa-share-alt"></i> Social Links</label>
             <input type="text" class="form-control" id="social_links" readonly>
           </div>
-
-          <!-- Save & Edit Buttons -->
           <button type="submit" class="btn btn-primary" id="save-btn"><i class="fas fa-save"></i> Save Profile</button>
           <button type="button" class="btn btn-warning" id="edit-btn"><i class="fas fa-edit"></i> Edit Profile</button>
         </form>
       </div>
     </div>
   </div>
-
-  <!-- Footer -->
   <footer class="bg-dark text-white text-center py-3 mt-5">
     <div class="container">
       <p class="mb-0">&copy; Job Seeker. All rights reserved.</p>
     </div>
   </footer>
-
-  <!-- Bootstrap and Custom Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     fetch('navbar.html')
@@ -233,16 +208,12 @@
   }
 });
 
-
-// Edit profile
 document.getElementById("edit-btn").addEventListener("click", function () {
             const fields = document.querySelectorAll("#profileForm input, #profileForm textarea");
             fields.forEach(field => field.removeAttribute("readonly"));
             document.getElementById("edit-btn").style.display = "none";
             document.getElementById("save-btn").style.display = "inline-block";
         });
-
-        // Save profile
         document.getElementById("profileForm").addEventListener("submit", async function (e) {
             e.preventDefault();
 
@@ -266,16 +237,10 @@ document.getElementById("edit-btn").addEventListener("click", function () {
                 const result = await response.json();
                 if (response.ok) {
                     alert("Profile updated successfully!");
-
-                    // Make fields read-only again
                     const fields = document.querySelectorAll("#profileForm input, #profileForm textarea");
                     fields.forEach(field => field.setAttribute("readonly", true));
-
-                    // Hide Save button and show Edit button
                     document.getElementById("save-btn").style.display = "none";
                     document.getElementById("edit-btn").style.display = "inline-block";
-
-                    // Redirect to dashboard
                     window.location.href = "dashboard.html";
                 } else {
                     alert(result.detail);
