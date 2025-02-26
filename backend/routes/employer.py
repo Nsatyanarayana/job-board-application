@@ -1,9 +1,9 @@
-import os
+import os,requests
 import google.generativeai as genai
 from fastapi import APIRouter, Form, HTTPException
 from models.schemas import Job, EmployerProfile
 from utils.db import db
-from bson import ObjectId
+
 from fastapi.responses import JSONResponse
 import uuid
 import json
@@ -16,7 +16,7 @@ if not GEMINI_API_KEY:
     raise ValueError("Please set the GEMINI_API_KEY environment variable.")
 
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-pro')
 
 router = APIRouter()
 
@@ -64,11 +64,10 @@ async def post_job(job: Job, user_id: str):
             "- Location and any location-specific requirements\n"
             "- Any additional relevant details\n\n"
             "Ensure that the text is structured in paragraph format, free from markdown symbols, and written in a formal yet engaging tone."
-             "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
-      
+              "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
         )
         response = model.generate_content(prompt)
-        generated_description = response.text.replace("**", "•") 
+        generated_description = response.text
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate job description: {str(e)}")
 
@@ -85,7 +84,6 @@ async def post_job(job: Job, user_id: str):
         "job_id": unique_id,
         "user_id": user_id
     }
-
 
     db.jobs.insert_one(data)
     return {"message": "Job posted successfully with generated description"}
@@ -112,11 +110,10 @@ async def generate_description(title: str, skills: str, location: str, user_id: 
             "- Location and any location-specific requirements\n"
             "- Any additional relevant details\n\n"
             "Ensure that the text is structured in paragraph format, free from markdown symbols, and written in a formal yet engaging tone."
-             "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
-      
+              "Ensure that the text is structured in paragraph format, uses bullet points (•) instead of markdown symbols, and is written in a formal yet engaging tone."
         )
         response = model.generate_content(prompt)
-        generated_description = response.text.replace("**", "•") 
+        generated_description = response.text
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate job description: {str(e)}")
 

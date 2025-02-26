@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8600";
+const API_BASE_URL = window__env.API_BASE_URL;
 async function uploadResume(userId, file) {
     try {
         const formData = new FormData();
@@ -88,7 +88,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 
 async function applyForJob(jobId) {
     const token = localStorage.getItem("access_token");
-    const API_BASE_URL = "http://127.0.0.1:8600";
+    const API_BASE_URL = window__env.API_BASE_URL;
 
     const response = await fetch(`${API_BASE_URL}/job_seeker/apply`, {
         method: "POST",

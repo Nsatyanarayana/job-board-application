@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", async () => {
+ 
+ document.addEventListener("DOMContentLoaded", async () => {
     const userId = sessionStorage.getItem("user_id");
     const editBtn = document.getElementById("editProfileBtn");
     const saveBtn = document.getElementById("saveProfileBtn");
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const fetchAndRenderProfile = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8600/employer/get_profile/${userId}`);
+            const response = await fetch(`${API_BASE_URL}/employer/get_profile/${userId}`);
             if (!response.ok) throw new Error("Profile not found");
             const data = await response.json();
 
@@ -49,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:8600/employer/Update_profile", {
+            const response = await fetch(`${API_BASE_URL}/employer/Update_profile`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(profile),

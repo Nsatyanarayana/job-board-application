@@ -25,7 +25,7 @@ if not GEMINI_API_KEY:
     raise ValueError("Please set the GEMINI_API_KEY environment variable.")
 
 genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-pro')
 
 router = APIRouter()
 
@@ -283,22 +283,18 @@ async def report_issue(user_id: str, issue: IssueReport):
     except Exception as e:
         solution = "Unable to generate a solution at this time. Please contact support."
 
-    # Generate a custom unique ID (UUID)
     unique_id = str(uuid4())
 
-    # Add the solution to the issue data
     issue_data = {
-        "issue_id": unique_id,  # Custom unique ID
+        "issue_id": unique_id,  
         "user_id": user_id,
         "username": username,
         "issue_type": issue.issue_type,
         "description": issue.description,
-        "solution": solution,  # Include the generated solution
+        "solution": solution,  
         "status": "open",
-        "created_at": datetime.now(),  # Add a timestamp
+        "created_at": datetime.now(), 
     }
-
-    # Save the issue to the database
     db.issues.insert_one(issue_data)
 
     return {"status": "success", "message": "Issue reported successfully", "solution": solution, "issue_id": unique_id}
@@ -313,7 +309,7 @@ async def remove_issue_by_id(issue_id: str):
     """
     Remove a specific issue by its custom ID.
     """
-    # Delete the issue with the given custom ID
+
     result = db.issues.delete_one({"issue_id": issue_id})
 
     if result.deleted_count > 0:
