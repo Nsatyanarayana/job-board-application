@@ -5,7 +5,6 @@ from bson import ObjectId
 import google.generativeai as genai
 import os
 
-# Set Gemini API key
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 router = APIRouter()
