@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+    .navbar {
+            background: linear-gradient(135deg, #007bff, #00bfff);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin-left: 1rem;
+        }
+        .nav-link:hover {
+            color: #ffdd57 !important;
+        }
+</style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">   
     <div class="container">
         <a class="navbar-brand" href="#"><i class="fas fa-briefcase"></i> Job Seeker</a>
@@ -10,19 +28,22 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/frontend/job-seeker/dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                    <a class="nav-link active" href="/job-seeker /dashboard"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/frontend/job-seeker/profile.html"><i class="fas fa-user"></i> Profile</a>
+                    <a class="nav-link" href="/job-seeker/profile"><i class="fas fa-user"></i> Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="fetchEmployerJobs()"><i class="fas fa-search"></i> Browse Jobs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/frontend/job-seeker/report.html"><i class="fas fa-exclamation-triangle"></i> Reported Issues</a>
+                    <a class="nav-link" href="#" onclick="showApplications()"><i class="fas fa-file-alt"></i> My Applications</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/frontend/index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a class="nav-link" href="/job-seeker/report" onclick="fetchReportedIssues()"><i class="fas fa-exclamation-triangle"></i> Reported Issues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </li>
              </ul> 
         </div>

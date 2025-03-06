@@ -1,22 +1,221 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+#employerProfileForm {
+    max-width: 400px; 
+    margin: 0 auto;  
+    padding: 20px;    
+    background-color: #f0f6f6d6; 
+    border: 1px solid #dee2e6; 
+    
 }
 
-.navbar {
-    margin-bottom: 20px;
+#employerProfileForm .form-label {
+    font-size: 19px; 
+    color: #0e0d0d;
+}
+
+#employerProfileForm .form-control {
+    font-size: 14px; 
+    padding: 8px; 
+    height: 35px; 
+}
+
+#employerProfileForm .btn {
+    font-size: 14px; 
+    padding: 6px 12px; 
+}
+
+#profileMessage {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center; 
+}
+
+#profileDisplay {
+    text-align: center;
+    margin-top: 15px;
+}
+
+#profileDisplay h2 {
+    font-size: 16px; 
+    font-weight: bold;
+  
+}
+
+
+
+
+/* Custom styles for the form */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
 }
 
 .container {
-    max-width: 800px;
-    margin: auto;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
 }
 
-h1, h2, h3 {
+h1 {
+    color: #2c3e50;
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #34495e;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 0.5rem;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.dropdown .btn-secondary {
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+.dropdown .btn-secondary:hover {
+    background-color: #2980b9;
+}
+
+.dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    color: #2c3e50;
+}
+
+.dropdown-item:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
+#generate-description {
+    background-color: #2ecc71;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+}
+
+#generate-description:hover {
+    background-color: #27ae60;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+#post-job-message {
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('https://static.vecteezy.com/system/resources/thumbnails/042/673/230/small/hexagon-security-electronic-for-safety-with-hologram-concept-for-future-technology-element-background-business-screen-vector.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    background-color: #1a3c66; /* Dark blue color, change as needed */
+    padding-top: 20px;
+    color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar .nav-link {
+    color: #ffffff;
+    border-radius: 5px;
+    margin: 10px 15px;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.sidebar .nav-link:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.content {
+    margin-left: 250px; /* Match sidebar width */
+    padding: 20px;
 }
 
 .card {
-    margin: 20px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #666;
+}
+
+.btn-primary {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-in-out;
 }

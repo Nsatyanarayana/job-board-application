@@ -1,5 +1,4 @@
- 
- document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const userId = sessionStorage.getItem("user_id");
     const editBtn = document.getElementById("editProfileBtn");
     const saveBtn = document.getElementById("saveProfileBtn");
@@ -50,11 +49,13 @@
         };
 
         try {
-            const response = await fetch(`${API_BASE_URL}/employer/Update_profile`, {
-                method: "PUT",
+            const response = await fetch(`${API_BASE_URL}/employer/update_profile`, {  
+                method: "PUT",  
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(profile),
             });
+            
+            
 
             if (response.ok) {
                 document.getElementById("profileMessage").textContent = "Profile updated successfully!";

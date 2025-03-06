@@ -57,7 +57,6 @@ def extract_text_from_file(file: UploadFile) -> str:
         return file_content.decode("utf-8")
     else:
         raise ValueError("Unsupported file format. Please upload a PDF, DOCX, or plain text file.")
-
 @router.get("/get_profile")
 async def get_profile(user_id: str):
     user = db.users.find_one({"user_id": user_id}, {"resume_content": 0})
@@ -66,7 +65,6 @@ async def get_profile(user_id: str):
         return user
     else:
         return JSONResponse(content={"status": "error", "message": "User not found"}, status_code=404)
-
 @router.post("/update-profile")
 async def update_profile(
     user_id: str = Form(...),
@@ -96,7 +94,7 @@ async def update_profile(
         if resume:
             resume_text = extract_text_from_file(resume)
             prompt = f"""
-            Extract the following details from the resume text below and format the response as key-value pairs:
+            Extract the following details from the resume text below and format the response as key-value pairs do not use ""and, symbols:
 
             Full Name: <name>
             Phone Number: <phone>
@@ -268,8 +266,6 @@ async def report_issue(user_id: str, issue: IssueReport):
         return {"status": "error", "message": "User not found"}
 
     username = user.get("username")
-
-    # Generate a solution using Gemini AI
     prompt = f"""
     A job seeker has reported the following issue:
     Issue Type: {issue.issue_type}

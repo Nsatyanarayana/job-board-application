@@ -27,7 +27,7 @@ document.getElementById("post-job-form")?.addEventListener("submit", async (e) =
     const result = await response.json();
     if (response.ok) {
         alert(result.message);
-        window.location.href = "dashboard.html";
+        window.location.href = "/employer/dashboard";
     } else {
         alert(result.detail);
     }

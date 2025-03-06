@@ -3,3 +3,4 @@ __pycache__/
 backend/utils/__pycache__/db.cpython-313.pyc
 
 frontend/config.js
+/backend/resumes
