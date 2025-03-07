@@ -157,21 +157,22 @@ async def view_application_details(user_id: str):
     jobs = list(db.jobs.find({"user_id": user_id}, {"_id": 0}))
     if not jobs:
         raise HTTPException(status_code=404, detail="No jobs found for this employer")
-
     job_ids = [job["job_id"] for job in jobs]
-    applications = list(db.applications.find({"job_id": {"$in": job_ids}}, {"_id": 0, "resume_content": 0}))
+
+    applications = list(db.applications.find(
+        {"job_id": {"$in": job_ids}, "status": "pending"}, 
+        {"_id": 0, "resume_content": 0}
+    ))
     if not applications:
-        raise HTTPException(status_code=404, detail="No applications found for these jobs")
+        raise HTTPException(status_code=404, detail="No pending applications found for these jobs")
 
     users = {app["user_id"]: db.users.find_one({"user_id": app["user_id"]}, {"_id": 0, "resume_content": 0}) 
              for app in applications if app["user_id"]}
-
     return JSONResponse(content={
         "applications": applications,
         "jobs": jobs,
         "users": list(users.values())
     })
-
 @router.delete("/delete_job/{job_id}")
 async def delete_job(job_id: str):
     result = db.jobs.delete_one({"job_id": job_id})

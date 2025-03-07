@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/styles.css">
-    
     <script src="/static/job-seeker.js" defer></script>
 </head>
 <body>
@@ -121,18 +120,40 @@
         let allJobs = []; 
         let currentPage = 1;
         const jobsPerPage = 6; 
+        let jobsInterval, applicationsInterval;
 
         function showDashboard() {
             document.getElementById('dashboardContent').classList.remove('hidden');
             document.getElementById('applicationsContent').classList.add('hidden');
             fetchJobs();
+            displayJobs(allJobs, currentPage);
+
+            // Start jobs interval
+            jobsInterval = setInterval(() => {
+                fetchJobs();
+                displayJobs(allJobs, currentPage);
+            }, 2000);
+
+            // Clear applications interval
+            if (applicationsInterval) {
+                clearInterval(applicationsInterval);
+            }
         }
 
-        // Show Applications Content
         async function showApplications() {
             document.getElementById('dashboardContent').classList.add('hidden');
             document.getElementById('applicationsContent').classList.remove('hidden');
             await displayApplications();
+
+            // Start applications interval
+            applicationsInterval = setInterval(() => {
+                displayApplications();
+            }, 2000);
+
+            // Clear jobs interval
+            if (jobsInterval) {
+                clearInterval(jobsInterval);
+            }
         }
 
         async function fetchJobs() {
@@ -339,37 +360,36 @@
         }
 
         function searchJobs() {
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    const filteredJobs = allJobs.filter(job => 
-        job.title.toLowerCase().includes(searchInput) ||
-        job.location.toLowerCase().includes(searchInput) ||
-        job.skills.some(skill => skill.toLowerCase().includes(searchInput))
-    );
-    displayJobs(filteredJobs); 
-    setupPagination(filteredJobs); 
-}
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredJobs = allJobs.filter(job => 
+                job.title.toLowerCase().includes(searchInput) ||
+                job.location.toLowerCase().includes(searchInput) ||
+                job.skills.some(skill => skill.toLowerCase().includes(searchInput))
+            );
+            displayJobs(filteredJobs); 
+            setupPagination(filteredJobs); 
+        }
 
         async function fetchEmployerJobs() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/employer/all_jobs`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch employer jobs');
+            try {
+                const response = await fetch(`${API_BASE_URL}/employer/all_jobs`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch employer jobs');
+                }
+                const employerJobs = await response.json();
+                console.log("Employer Jobs:", employerJobs); 
+                allJobs = employerJobs; 
+                displayJobs(allJobs); 
+                setupPagination(allJobs); 
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('jobsList').innerHTML = `<p class="text-danger">Error: ${error.message}</p>`;
+            }
         }
-        const employerJobs = await response.json();
-        console.log("Employer Jobs:", employerJobs); 
-        allJobs = employerJobs; 
-        displayJobs(allJobs); 
-        setupPagination(allJobs); 
-    } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('jobsList').innerHTML = `<p class="text-danger">Error: ${error.message}</p>`;
-    }
-}
-        fetchJobs();
-        displayJobs();
-        showDashboard();
-     
 
+        fetchJobs();
+        displayJobs(allJobs, currentPage);
+        showDashboard();
     </script>
 </body>
 </html>

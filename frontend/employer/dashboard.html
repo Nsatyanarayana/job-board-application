@@ -211,92 +211,92 @@
         };
 
         const jobList = (data, page = 1) => {
-    jobDesContainer.innerHTML = ""; 
+            jobDesContainer.innerHTML = ""; 
 
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedData = data.slice(startIndex, endIndex);
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedData = data.slice(startIndex, endIndex);
 
-    paginatedData.forEach(element => {
-        const col = document.createElement("div");
-        col.className = "col-md-4 mb-4";
+            paginatedData.forEach(element => {
+                const col = document.createElement("div");
+                col.className = "col-md-4 mb-4";
 
-        const card = document.createElement("div");
-        card.className = "card h-100 shadow-sm job-card";
+                const card = document.createElement("div");
+                card.className = "card h-100 shadow-sm job-card";
 
-        const cardBody = document.createElement("div");
-        cardBody.className = "card-body d-flex flex-column";
+                const cardBody = document.createElement("div");
+                cardBody.className = "card-body d-flex flex-column";
 
-        const jobTitle = document.createElement("h5");
-        jobTitle.className = "card-title";
-        jobTitle.innerHTML = `<i class="fas fa-briefcase"></i> ${element.title || "Job Title"}`;
+                const jobTitle = document.createElement("h5");
+                jobTitle.className = "card-title";
+                jobTitle.innerHTML = `<i class="fas fa-briefcase"></i> ${element.title || "Job Title"}`;
 
-        const jobLocation = document.createElement("p");
-        jobLocation.className = "card-text";
-        jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${element.location || "N/A"}`;
+                const jobLocation = document.createElement("p");
+                jobLocation.className = "card-text";
+                jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${element.location || "N/A"}`;
 
-        const applyButton = document.createElement("a");
-        applyButton.href = "#";
-        applyButton.className = "btn btn-primary me-2";
-        applyButton.innerHTML = `<i class="fas fa-eye"></i> View Details`;
+                const applyButton = document.createElement("a");
+                applyButton.href = "#";
+                applyButton.className = "btn btn-primary me-2";
+                applyButton.innerHTML = `<i class="fas fa-eye"></i> View Details`;
 
-        applyButton.addEventListener("click", () => {
-            document.getElementById("modalJobTitle").textContent = element.title || "Job Title";
-            document.getElementById("modalJobDescription").textContent = element.description || "Job Description";
-            document.getElementById("modalJobLocation").textContent = element.location || "N/A";
-            document.getElementById("modalJobSalary").textContent = element.salary || "N/A";
-            document.getElementById("modalJobRequirements").textContent = element.requirements || "N/A";
-            currentJobId = element.job_id;
-            const jobDetailsModal = new bootstrap.Modal(document.getElementById("jobDetailsModal"));
-            jobDetailsModal.show();
-        });
+                applyButton.addEventListener("click", () => {
+                    document.getElementById("modalJobTitle").textContent = element.title || "Job Title";
+                    document.getElementById("modalJobDescription").textContent = element.description || "Job Description";
+                    document.getElementById("modalJobLocation").textContent = element.location || "N/A";
+                    document.getElementById("modalJobSalary").textContent = element.salary || "N/A";
+                    document.getElementById("modalJobRequirements").textContent = element.requirements || "N/A";
+                    currentJobId = element.job_id;
+                    const jobDetailsModal = new bootstrap.Modal(document.getElementById("jobDetailsModal"));
+                    jobDetailsModal.show();
+                });
 
-        const editButton = document.createElement("button");
-        editButton.className = "btn btn-warning";
-        editButton.innerHTML = `<i class="fas fa-edit"></i> Edit`;
+                const editButton = document.createElement("button");
+                editButton.className = "btn btn-warning";
+                editButton.innerHTML = `<i class="fas fa-edit"></i> Edit`;
 
-        editButton.addEventListener("click", () => {
-            document.getElementById("editJobTitle").value = element.title || "";
-            document.getElementById("editJobDescription").value = element.description || "";
-            document.getElementById("editJobLocation").value = element.location || "";
-            document.getElementById("editJobSalary").value = element.salary || "";
-            document.getElementById("editJobRequirements").value = element.requirements || "";
-            document.getElementById("editJobId").value = element.job_id;
+                editButton.addEventListener("click", () => {
+                    document.getElementById("editJobTitle").value = element.title || "";
+                    document.getElementById("editJobDescription").value = element.description || "";
+                    document.getElementById("editJobLocation").value = element.location || "";
+                    document.getElementById("editJobSalary").value = element.salary || "";
+                    document.getElementById("editJobRequirements").value = element.requirements || "";
+                    document.getElementById("editJobId").value = element.job_id;
 
-            const editJobModal = new bootstrap.Modal(document.getElementById("editJobModal"));
-            editJobModal.show();
-        });
+                    const editJobModal = new bootstrap.Modal(document.getElementById("editJobModal"));
+                    editJobModal.show();
+                });
 
-        const buttonContainer = document.createElement("div");
-        buttonContainer.className = "d-flex justify-content-between mt-3";
-        buttonContainer.append(applyButton, editButton);
+                const buttonContainer = document.createElement("div");
+                buttonContainer.className = "d-flex justify-content-between mt-3";
+                buttonContainer.append(applyButton, editButton);
 
-        cardBody.append(jobTitle, jobLocation, buttonContainer);
-        card.append(cardBody);
-        col.append(card);
-        jobDesContainer.append(col);
-    });
-    renderPagination(data, page);
-};
+                cardBody.append(jobTitle, jobLocation, buttonContainer);
+                card.append(cardBody);
+                col.append(card);
+                jobDesContainer.append(col);
+            });
+            renderPagination(data, page);
+        };
 
-const renderPagination = (data, currentPage) => {
-    const totalPages = Math.ceil(data.length / itemsPerPage);
-    const paginationContainer = document.getElementById("pagination");
-    paginationContainer.innerHTML = "";
+        const renderPagination = (data, currentPage) => {
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            const paginationContainer = document.getElementById("pagination");
+            paginationContainer.innerHTML = "";
 
-    for (let i = 1; i <= totalPages; i++) {
-        const li = document.createElement("li");
-        li.className = `page-item ${i === currentPage ? "active" : ""}`;
-        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+            for (let i = 1; i <= totalPages; i++) {
+                const li = document.createElement("li");
+                li.className = `page-item ${i === currentPage ? "active" : ""}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
 
-        li.addEventListener("click", (e) => {
-            e.preventDefault();
-            jobList(data, i);
-        });
+                li.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    jobList(data, i);
+                });
 
-        paginationContainer.appendChild(li);
-    }
-};
+                paginationContainer.appendChild(li);
+            }
+        };
 
         document.getElementById("editJobForm").addEventListener("submit", async (event) => {
             event.preventDefault();
@@ -428,7 +428,12 @@ const renderPagination = (data, currentPage) => {
                 });
 
                 const result = await response.json();
-                alert(result.message); 
+                alert(result.message);
+
+                const cardToRemove = document.querySelector(`#status-${jobId}-${userId}`).closest('.card');
+                if (cardToRemove) {
+                    cardToRemove.remove();
+                } 
 
                 fetchApplicationDetails();
             } catch (error) {
@@ -436,11 +441,14 @@ const renderPagination = (data, currentPage) => {
             }
         }
 
-document.addEventListener("DOMContentLoaded", () => {
-          
+        document.addEventListener("DOMContentLoaded", () => {
+            setInterval(() => {
+                fetchApplicationDetails();
+                getPostedJobs();
+            }, 2000);
+
             fetchApplicationDetails();
             getPostedJobs();
-           
         });
     </script>
 </body>

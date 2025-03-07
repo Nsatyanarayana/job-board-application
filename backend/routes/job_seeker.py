@@ -205,7 +205,7 @@ async def apply_for_job(
         "phone": phone,
         "resume_filename": resume.filename,
         "resume_content": resume_content,
-        "status": "applied",
+        "status": "pending",
     }
 
     db.applications.insert_one(application_data)
